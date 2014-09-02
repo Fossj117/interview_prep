@@ -2,7 +2,7 @@
 
 This is a repository for my data science interview preparations. The primary item will be `README.md` (this document), which will contain my notes about various topics. 
 
-## 1. General Data Structures & Programming
+## 1. General Data Structures & Algorithms
 
 #### Hash Tables
 
@@ -108,9 +108,122 @@ Key thing to remember if asked to implement BFS: *USE A QUEUE!*
 
 DFS is typically the easies if we want to visit every node in the graph, or atleast visit every node until we find whatever we're looking for. However, if we have a very large tree and want to be prepared to quit when we get too far from the original node, DFS can be problematic; we might search thousands of ancestors of the node but never even search all of the node's children. In these cases BFS is typically preferred. 
 
+#### Recursion
 
+##### Three Laws of Recursion: 
+
+1. Recursive algo must have a base case
+2. Recursive algo must change its state and move tword the base case
+3. A recursive algo must call itself, recursively. 
+
+
+#### Big-O notation: 
+
+* Constant - `O(1)`
+* Logarithmic - `O(log n)`
+* Linear - `O(n)`
+* Log Linear - `O(n log n)`
+* Quadratic - `O(n^2)`
+* Cubic - `O(n^3)`
+* Exponential - `O(2^n)`
 
 ## 2. Python-specific Stuff
+
+#### General
+
+Assignment statements assign a name to an object.
+
+#### Lists in Python
+
+Python list is an object that contains an ordered collection of objects. 
+
+Elements of the list are accessed using integer-valued indices. 
+
+First element of a list is always index 0. Last element has index -1 and can index things backwards (-1, -2, -, …)
+
+`len` provides number of elements in the list. 
+
+Empty list is `[ ]`
+
+Lists are heterogenous, meaning that the data objects need not all be from the same class 
+
+##### List Methods: 
+
+* `apppend`: adds a new item to the end of list. Modifies the list object. 
+*`alist.insert(i, item)`: inserts an item at the ith position in list
+*`alist.pop()`: removes and returns the last item in a list
+*`alist.pop(i)`: removes and returns the ith element in a list
+*`alist.sort()`:: modifies a list to be sorted. 
+*`del alist[i]`: deletes the item in the ith position
+
+##### List Performance
+
+* Indexing & index assignment - `O(1)`
+* Growing a list: 
+	* with `append`: `O(1)`
+	* with concatentation operator: `O(k)` where `k` is the size of the list being concatenated.  
+* `pop()`: O(1)
+* `pop(i)`: O(n)
+* `insert(i, item)`: O(n)
+* del operator: O(n)
+* iteration: O(n)
+* contains (`in`): O(n)
+* get slice: O(k)
+* `reverse`: O(n)
+* concatenate: O(k)
+* `sort`: O(n log n)
+
+**Note**: Python lists implmeneted such that when an item is taken from the front of the list, all the other elements in the list are shifted one position closer to the beginning (hence O(n) cost of inserting/removing from the front or middle). This behaviour allows index operation to be O(1). 
+
+
+#### Strings
+
+Sequential collections of zero or more letters, numbers and other symbols. We call these letters, numbers, symbols *characters*
+
+Strings are **immutable** => you cannot change a character in a string by using indexing and assignment (like you can with, e.g. a list)
+
+#### Tuples
+
+Very similar to lists in that they are heterogeneous sequeneces of data. The difference is that a tuple is immutable, like a string. A tuple cannot be changed (e.g. via indexing and assignment)
+
+#### Sets
+
+A set is an unordered collection of zero or more immutable Python data objects. Set do not allow duplicates and are written as comma-delimited values enclosed in curly braces. The empty set is represented by `set()`. Sets are heterogeneous, and the collection can be assigned to a varaible. 
+
+#### Dictionaries
+
+Unordered collection of associated pairs of items where each pair consists of a *key* and a *value*. 
+
+We can manipulate a dictionary by accessing a value via its key or by adding another key-value pair. 
+
+Dictionary is maintained in no particular order with respect ot the keys. 
+
+##### Dict Operators: 
+
+* `myDict[k]`: returns the value associated with `k`, or a `KeyError`
+* `key in myDict`: returns `True` if key is in the dictionary, `False` otherwise. 
+* `del myDict[k]`: removes the entry from the dict. 
+
+##### Dict Methods: 
+
+* `myDict.keys()`: returns the keys in the dictionary (as a list)
+* `myDict.values()`: returns the values in the dictionary (as a list).
+* `myDict.items()`: returns the key-value pairs (as a list of tuples)
+
+##### Dictionary Performance
+
+Get item and set item operations on a dictionary are `O(1)`. 
+
+Checking whether a key is in the dictionary is also `O(1)`
+
+Specifics: 
+* copy: `O(n)`
+* get item: `O(1)`
+* set item: `O(1)`
+* delete item: `O(1)`
+* contains (in): `O(1)`
+* iteration: `O(n)`
+
 
 #### Yield & Generators
 
@@ -143,12 +256,139 @@ Python mechanisms:
 
 ```
 
-
 * **Generator Expressions**: Similar to list comprehensions, but return an object that produces results on demand instead of building a result list. 
 
 `xrange` vs `range`: The `xrange()` function is very similar to `range()` in that it yields the same values as the corresponding list; difference is that it does this without storing them all simultaneously. Advantage of `xrange` is when iterating over a very large range on a memory-starved machine or when all of the range's elements are never used. 
 
+#### Python Resources: 
 
+* [Interactive Python](http://interactivepython.org/)
+	* [specifically](http://interactivepython.org/courselib/static/pythonds/index.html#) 
+
+
+### 3. SQL Practice
+
+#### Question 1:
+
+Three tables (schemas): 
+
+```
+Salesperson: ID | Name | Age | Salary
+
+Customer: ID | Name | City | Industry_Type
+
+Orders: Number | order_date | cust_id | salesperson_id | Amount
+```
+
+Find the following: 
+
+a. The names of all salespeople that have an order with Samsonic. 
+
+```
+SELECT DISTINCT(Name) FROM
+Salesperson JOIN Orders 
+	ON (Salesperson.ID = Orders.salesperson_id)
+JOIN Customer 
+	ON (Orders.cust_id=Customer.ID)
+WHERE Customer.Name = 'Samsonic' 
+```
+
+b. The names of all salespeople that do not have any order with Samsonic. 
+
+```
+SELECT Name FROM Salesperson
+WHERE Name NOT IN (SELECT Name FROM
+Salesperson JOIN Orders
+	ON (Salesperson.ID = Orders.salesperson_id)
+JOIN Customer
+	ON (Orders.cust_id = Customer.ID)
+WHERE Customer.Name = 'Samsonic)
+```
+
+c. The names of salespeople that have 2 or more orders. 
+
+```
+SELECT MAX(Name) FROM 
+Salesperson LEFT JOIN Orders
+	ON (Salesperson.ID = Orders.salesperson_id) 	AS ID
+GROUP BY ID
+HAVING COUNT(Orders.Number) >= 2
+```
+
+#### Question 2:
+
+Two tables: 
+
+**User** : user_id | name | phone_num
+**UserHistory**: user_id | date | action
+
+1. Write a SQL query that returns the name, phone number and most recent date for any user that has logged in over the last 30 days (you can tell a user has logged in if the action field in UserHistory is set to "logged_on").
+
+Every time a user logs in a new row is inserted into the UserHistory table with user_id, current date and action (where action = "logged_on").
+
+**Answer**: 
+
+Users who have logged in over the last 30 days: 
+
+```
+SELECT user_id FROM UserHistory
+WHERE action = "logged_on"
+GROUP BY user_id
+HAVING MAX(date) > TODAY - 30
+```
+
+Full Answer: 
+
+```
+SELECT name, phone_num, MAX(date) FROM 
+User JOIN UserHistory ON (User.user_id=UserHistory.user_id)
+WHERE user_id IN 
+
+(SELECT user_id FROM UserHistory
+WHERE action = "logged_on"
+GROUP BY user_id
+HAVING MAX(date) > TODAY - 30)
+
+GROUP BY name, phone_num 
+```
+
+Better way: 
+
+```
+SELECT name, phone_num, MAX(date) 
+FROM User JOIN UserHistory 	ON User.user_id=UserHistory.user_id)
+WHERE UserHistory.action = "logged_on"
+	AND UserHistory.date > (currdate() - 30)
+GROUP BY name, phone_num
+```
+
+2. Write a SQL query to determine which user_ids in the User table are not contained in the UserHistory table (assume the UserHistory table has a subset of the user_ids in User table). Do not use the SQL MINUS statement. Note: the UserHistory table can have multiple entries for each user_id.
+
+Note that your SQL should be compatible with MySQL 5.0, and avoid using subqueries.
+
+With subqueries:
+
+```
+SELECT user_id FROM User 
+WHERE user_id NOT IN (SELECT user_id FROM UserHistory)
+```
+
+Without subqueries: 
+
+```
+SELECT DISTINCT(user_id)
+FROM User LEFT JOIN UserHistory ON (user_id = user_id)
+GROUP BY user_id
+HAVING COUNT(action) > 0
+```
+
+Or: 
+
+```
+SELECT DISTINCT(user_id)
+FROM User LEFT JOIN UserHistory ON (user_id = user_id)
+WHERE action is null
+```
 
 
 
