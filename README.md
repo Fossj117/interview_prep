@@ -322,7 +322,7 @@ Two tables:
 **User** : user_id | name | phone_num
 **UserHistory**: user_id | date | action
 
-1. Write a SQL query that returns the name, phone number and most recent date for any user that has logged in over the last 30 days (you can tell a user has logged in if the action field in UserHistory is set to "logged_on").
+1.Write a SQL query that returns the name, phone number and most recent date for any user that has logged in over the last 30 days (you can tell a user has logged in if the action field in UserHistory is set to "logged_on").
 
 Every time a user logs in a new row is inserted into the UserHistory table with user_id, current date and action (where action = "logged_on").
 
@@ -362,7 +362,7 @@ WHERE UserHistory.action = "logged_on"
 GROUP BY name, phone_num
 ```
 
-2. Write a SQL query to determine which user_ids in the User table are not contained in the UserHistory table (assume the UserHistory table has a subset of the user_ids in User table). Do not use the SQL MINUS statement. Note: the UserHistory table can have multiple entries for each user_id.
+2.Write a SQL query to determine which user_ids in the User table are not contained in the UserHistory table (assume the UserHistory table has a subset of the user_ids in User table). Do not use the SQL MINUS statement. Note: the UserHistory table can have multiple entries for each user_id.
 
 Note that your SQL should be compatible with MySQL 5.0, and avoid using subqueries.
 
