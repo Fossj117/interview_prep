@@ -266,7 +266,13 @@ Python mechanisms:
 	* [specifically](http://interactivepython.org/courselib/static/pythonds/index.html#) 
 
 
-### 3. SQL Practice
+### 3. SQL 
+
+#### SQL Notes: 
+
+**UNION**:  List a number of SELECT statements separated by the UNION key word. 
+
+#### Practice Problems
 
 #### Question 1:
 
@@ -390,6 +396,14 @@ FROM User LEFT JOIN UserHistory ON (user_id = user_id)
 WHERE action is null
 ```
 
+### Probability
+
+A bag contains 4 white, 5 red and 6 blue balls. Three balls are drawn at random from the bag. The probability that all of them are red, is:
+
+n(E) = 5 C 3
+n(S) = 15 C 3
+
+ANS = n(E) / n(S) = 5 C 3 / 15 C 3 = 2/91
 
 
 
