@@ -396,14 +396,27 @@ FROM User LEFT JOIN UserHistory ON (user_id = user_id)
 WHERE action is null
 ```
 
-### Probability
+Following refer to this DB schema: 
 
-A bag contains 4 white, 5 red and 6 blue balls. Three balls are drawn at random from the bag. The probability that all of them are red, is:
+**Apartments**: AptID | UnitNumber
 
-n(E) = 5 C 3
-n(S) = 15 C 3
+**Buildings**: BuildingID | ComplexID
 
-ANS = n(E) / n(S) = 5 C 3 / 15 C 3 = 2/91
+**Tenants**: TenantID | TenantName
 
+**AptTenants**: TenantID | AptID
+
+**Requests**: RequestID | Status | AptID | Description
+
+Write a SQL query to get a list of tenants who are renting more than one apartment. 
+
+```
+SELECT MAX(TenantName)
+FROM Tenants 
+JOIN AptTenants
+ON Tenants.TenantID = AptTenants.TenantID
+GROUP BY Tenants.TenantID
+HAVING COUNT(AptID) > 1
+```
 
 
